@@ -36,6 +36,24 @@ function Main() {
         }
     }, [store.needSetting])
 
+    // Global keyboard event listener
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            // Check for Cmd+N (Mac) or Ctrl+N (Windows/Linux)
+            if (event.key === 'n' && (event.metaKey || event.ctrlKey)) {
+                event.preventDefault() // Prevent browser from opening new window
+                store.createEmptyChatSession()
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyDown)
+
+        // Cleanup listener on unmount
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown)
+        }
+    }, [store])
+
     // 是否展示应用更新提示
     const [needCheckUpdate, setNeedCheckUpdate] = useState(true)
 
@@ -222,7 +240,7 @@ function Main() {
                                 New Chat
                             </ListItemText>
                             <Typography variant="body2" color="text.secondary">
-                                {/* ⌘N */}
+                                {navigator.platform.indexOf('Mac') !== -1 ? '⌘N' : 'Ctrl+N'}
                             </Typography>
                         </MenuItem>
                         <MenuItem onClick={() => {
