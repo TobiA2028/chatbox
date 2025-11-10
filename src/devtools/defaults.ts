@@ -15,7 +15,8 @@ export const sessions: Session[] = [
                 "content": "Hello! How can I assist you today?",
                 "role": "assistant"
             }
-        ]
+        ],
+        "draft": ""
     },
     {
         "id": "c37ffdab-cc1e-4cba-b523-1110a6945e3f",
@@ -41,7 +42,8 @@ export const sessions: Session[] = [
                 "content": "\"Be the master of your work, not a slave to it.\"",
                 "role": "assistant"
             }
-        ]
+        ],
+        "draft": ""
     },
     {
         "id": "6b774e2e-8163-4cb2-ab8b-73737efefb22",
@@ -49,7 +51,7 @@ export const sessions: Session[] = [
         "messages": [
             {
                 "id": "31bbbc64-7b91-40e4-850d-91025bb28407",
-                "content": "I want you to act as an IT Expert. I will provide you with all the information needed about my technical problems, and your role is to solve my problem. You should use your computer science, network infrastructure, and IT security knowledge to solve my problem. Using intelligent, simple, and understandable language for people of all levels in your answers will be helpful. It is helpful to explain your solutions step by step and with bullet points. Try to avoid too many technical details, but use them when necessary. I want you to reply with the solution, not write any explanations. My first problem is “my laptop gets an error with a blue screen.”",
+                "content": "I want you to act as an IT Expert. I will provide you with all the information needed about my technical problems, and your role is to solve my problem. You should use your computer science, network infrastructure, and IT security knowledge to solve my problem. Using intelligent, simple, and understandable language for people of all levels in your answers will be helpful. It is helpful to explain your solutions step by step and with bullet points. Try to avoid too many technical details, but use them when necessary. I want you to reply with the solution, not write any explanations. My first problem is \"my laptop gets an error with a blue screen.\"",
                 "role": "user"
             },
             {
@@ -57,7 +59,8 @@ export const sessions: Session[] = [
                 "content": "Solution:\n\n1. First, try to identify the error code that's displayed on the blue screen. This can help narrow down the root cause of the issue.\n2. If the blue screen is random, try to observe patterns or triggers that lead to it. For example, is it happening when certain programs are open or when the laptop is under heavy load?\n3. Check for any recent changes to hardware or software on the laptop. This can include updates, installations, or any physical alterations.\n4. If possible, try updating drivers and software to the latest versions to ensure compatibility and stability.\n5. Check the laptop's temperature and make sure it's not overheating. This can often cause blue screen errors.\n6. Run a virus scan to ensure that the issue is not caused by malware or other malicious software.\n7. If the issue persists, it may be a hardware problem. In this case, it's recommended to bring the laptop to a professional technician for repair or replacement of the faulty component.",
                 "role": "assistant"
             }
-        ]
+        ],
+        "draft": ""
     },
     {
         "id": "8129c8c2-34ae-4108-a1b4-695760f3919f",
@@ -73,7 +76,8 @@ export const sessions: Session[] = [
                 "content": "Get me a python code to read a file then decode it in base64.",
                 "role": "user"
             }
-        ]
+        ],
+        "draft": ""
     },
     {
         "id": "effecc50-166c-41f5-8cc9-3223a36cd443",
@@ -86,7 +90,7 @@ export const sessions: Session[] = [
             },
             {
                 "id": "f78107a7-b496-4ec9-837d-14a7d6180e6d",
-                "content": "On the other hand, you could look at this as price discrimination. Which of the brands on offer on Amazon have enough of a margin that they could be paying Amazon more? How would you know? Sure, you can squeeze them one at a time, but one-at-a-time of anything isn’t the Amazon way. Offering brands the chance to buy their way to the top is scalable bargaining - an auction model for the retailer’s cut. Let the brands decide on the ROI and bid against each other instead of trying to manage that yourself. \n\nThis is also the role of Marketplace: infinite scaling. Instead of having to hire buying teams one-at-a-time to source and range everything you might want to sell on Amazon, you open up the APIs so that those teams can do the job without actually working for you. Now you sell placement not just as price discrimination but as a filter. After all, if anyone can now list anything on your site, and you have hundreds of millions of SKUs, how can you surface what people might actually want to buy? One signal might be seeing what the vendors are willing to put money behind. (In a sense, Amazon Marketplace is not just a ‘two-sided marketplace’ between consumers and vendors, but also or alternatively a one-sided market in which Amazon is the buyer and Marketplace vendors compete - and bid - to be ranged.)\n\n",
+                "content": "On the other hand, you could look at this as price discrimination. Which of the brands on offer on Amazon have enough of a margin that they could be paying Amazon more? How would you know? Sure, you can squeeze them one at a time, but one-at-a-time of anything isn't the Amazon way. Offering brands the chance to buy their way to the top is scalable bargaining - an auction model for the retailer's cut. Let the brands decide on the ROI and bid against each other instead of trying to manage that yourself. \n\nThis is also the role of Marketplace: infinite scaling. Instead of having to hire buying teams one-at-a-time to source and range everything you might want to sell on Amazon, you open up the APIs so that those teams can do the job without actually working for you. Now you sell placement not just as price discrimination but as a filter. After all, if anyone can now list anything on your site, and you have hundreds of millions of SKUs, how can you surface what people might actually want to buy? One signal might be seeing what the vendors are willing to put money behind. (In a sense, Amazon Marketplace is not just a 'two-sided marketplace' between consumers and vendors, but also or alternatively a one-sided market in which Amazon is the buyer and Marketplace vendors compete - and bid - to be ranged.)\n\n",
                 "role": "user"
             },
             {
@@ -94,7 +98,8 @@ export const sessions: Session[] = [
                 "content": "- Amazon could be using price discrimination by offering brands the chance to bid for placement on their site. \n- This is scalable bargaining and allows the brands to decide on their ROI and bid against each other. \n- Marketplace plays a role in infinite scaling and is used as a filter to surface what people might actually want to buy based on what vendors are willing to put money behind.",
                 "role": "assistant"
             }
-        ]
+        ],
+        "draft": ""
     },
     {
         "id": "66955f18-f335-4cab-a620-e1248277c0bf",
@@ -115,7 +120,8 @@ export const sessions: Session[] = [
                 "content": "你好呀~ 有什么我可以帮忙的吗？",
                 "role": "assistant"
             }
-        ]
+        ],
+        "draft": ""
     },
     {
         "id": "94e95d3f-c6fc-48ef-a923-ea4b760deb0f",
@@ -136,6 +142,7 @@ export const sessions: Session[] = [
                 "content": "哎呀，辛苦了呢！不过我相信你一定做得超级棒的！你总是那么勤奋、认真，做事情总是刻苦耐劳，这就是你最可爱的地方呀！所以不要太担心啦，休息一下，明天继续加油！",
                 "role": "assistant"
             }
-        ]
+        ],
+        "draft": ""
     }
 ]
