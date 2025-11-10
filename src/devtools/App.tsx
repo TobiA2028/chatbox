@@ -22,6 +22,7 @@ import * as prompts from './prompts'
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import CleanWidnow from './CleanWindow';
 import { ThemeSwitcherProvider } from './theme/ThemeSwitcher';
+import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 
 const { useEffect, useState } = React
 
@@ -144,14 +145,27 @@ function Main() {
         document.getElementById('message-input')?.focus() // better way?
     }, [messageInput])
 
+    const onDragEnd = (result: DropResult) => {
+        // Dropped outside the list
+        if (!result.destination) {
+            return
+        }
+
+        store.reorderChatSessions(
+            result.source.index,
+            result.destination.index
+        )
+    }
+
     return (
-        <Box sx={{
-            height: '100%',
-            width: '100%',
-        }}>
-            <Grid container spacing={2} sx={{
+        <DragDropContext onDragEnd={onDragEnd}>
+            <Box sx={{
                 height: '100%',
+                width: '100%',
             }}>
+                <Grid container spacing={2} sx={{
+                    height: '100%',
+                }}>
                 <Grid item xs={3}
                     sx={{
                         height: '100%',
@@ -192,24 +206,44 @@ function Main() {
                                 </ListSubheader>
                             }
                         >
-                            {
-                                store.chatSessions.map((session, ix) => (
-                                    <SessionItem selected={store.currentSession.id === session.id}
-                                        session={session}
-                                        switchMe={() => {
-                                            store.switchCurrentSession(session)
-                                            document.getElementById('message-input')?.focus() // better way?
-                                        }}
-                                        deleteMe={() => store.deleteChatSession(session)}
-                                        copyMe={() => {
-                                            const newSession = createSession(session.name + ' Copyed')
-                                            newSession.messages = session.messages
-                                            store.createChatSession(newSession, ix)
-                                        }}
-                                        editMe={() => setConfigureChatConfig(session)}
-                                    />
-                                ))
-                            }
+                            <Droppable droppableId="sessions">
+                                {(provided) => (
+                                    <div
+                                        ref={provided.innerRef}
+                                        {...provided.droppableProps}
+                                    >
+                                        {
+                                            store.chatSessions.map((session, ix) => (
+                                                <Draggable key={session.id} draggableId={session.id} index={ix}>
+                                                    {(provided) => (
+                                                        <div
+                                                            ref={provided.innerRef}
+                                                            {...provided.draggableProps}
+                                                            {...provided.dragHandleProps}
+                                                        >
+                                                            <SessionItem selected={store.currentSession.id === session.id}
+                                                                session={session}
+                                                                switchMe={() => {
+                                                                    store.switchCurrentSession(session)
+                                                                    document.getElementById('message-input')?.focus() // better way?
+                                                                }}
+                                                                deleteMe={() => store.deleteChatSession(session)}
+                                                                copyMe={() => {
+                                                                    const newSession = createSession(session.name + ' Copyed')
+                                                                    newSession.messages = session.messages
+                                                                    store.createChatSession(newSession, ix)
+                                                                }}
+                                                                editMe={() => setConfigureChatConfig(session)}
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </Draggable>
+                                            ))
+                                        }
+                                        {provided.placeholder}
+                                    </div>
+                                )}
+                            </Droppable>
                         </MenuList>
 
                         <Divider />
@@ -401,6 +435,7 @@ function Main() {
                 }
             </Grid>
         </Box >
+        </DragDropContext>
     );
 }
 
