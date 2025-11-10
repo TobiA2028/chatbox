@@ -140,9 +140,26 @@ function Main() {
     }
 
     const [ messageInput, setMessageInput ] = useState('')
+    const [ isInitialized, setIsInitialized ] = useState(false)
+
     useEffect(() => {
         document.getElementById('message-input')?.focus() // better way?
     }, [messageInput])
+
+    // Restore draft when switching to a different session
+    useEffect(() => {
+        setMessageInput(store.currentSession.draft || '')
+        setIsInitialized(true)
+    }, [store.currentSession.id])
+
+    // Save draft to current session whenever messageInput changes (after initialization)
+    useEffect(() => {
+        if (!isInitialized) return
+        store.updateChatSession({
+            ...store.currentSession,
+            draft: messageInput,
+        })
+    }, [messageInput, isInitialized])
 
     return (
         <Box sx={{
@@ -204,6 +221,7 @@ function Main() {
                                         copyMe={() => {
                                             const newSession = createSession(session.name + ' Copyed')
                                             newSession.messages = session.messages
+                                            // Note: draft is intentionally NOT copied - new session starts with empty draft
                                             store.createChatSession(newSession, ix)
                                         }}
                                         editMe={() => setConfigureChatConfig(session)}
@@ -348,6 +366,7 @@ function Main() {
                                     const promptsMsgs = [...store.currentSession.messages, newUserMsg]
                                     const newAssistantMsg = createMessage('assistant', '....')
                                     store.currentSession.messages = [...store.currentSession.messages, newUserMsg, newAssistantMsg]
+                                    store.currentSession.draft = ''
                                     store.updateChatSession(store.currentSession)
                                     generate(store.currentSession, promptsMsgs, newAssistantMsg)
                                     setScrollToMsg({ msgId: newAssistantMsg.id, smooth: true })
