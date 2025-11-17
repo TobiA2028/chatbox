@@ -431,8 +431,8 @@ function MessageInput(props: {
     }
     return (
         <form onSubmit={submit}>
-            <Stack direction="column" spacing={1}>
-                <Stack direction="row" spacing={1} alignItems="center">
+            <Stack direction="row" spacing={1} alignItems="center">
+                <Stack direction="column" spacing={1} sx={{ flexGrow: 1 }}>
                     <TextField
                         multiline
                         label="Prompt"
@@ -450,11 +450,18 @@ function MessageInput(props: {
                             }
                         }}
                     />
-                    <Button type='submit' variant="contained" size='large'>
-                        SEND
-                    </Button>
+                    <Stack direction="row" justifyContent="space-between">
+                        <Typography variant='caption' style={{ opacity: 0.3 }}>
+                            [Enter] send, [Shift+Enter] line break
+                        </Typography>
+                        <Typography variant='caption' style={{ opacity: 0.3 }}>
+                            {messageInput.length} characters
+                        </Typography>
+                    </Stack>
                 </Stack>
-                <Typography variant='caption' style={{ opacity: 0.3 }}>[Enter] send, [Shift+Enter] line break</Typography>
+                <Button type='submit' variant="contained" size='large'>
+                    SEND
+                </Button>
             </Stack>
         </form>
     )
