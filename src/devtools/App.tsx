@@ -90,6 +90,8 @@ function Main() {
 
     const [sessionClean, setSessionClean] = React.useState<Session | null>(null);
 
+    const [toastMessage, setToastMessage] = React.useState<string | null>(null);
+
     const generateName = async (session: Session) => {
         client.replay(
             store.settings.openaiKey,
@@ -193,22 +195,64 @@ function Main() {
                             }
                         >
                             {
-                                store.chatSessions.map((session, ix) => (
-                                    <SessionItem selected={store.currentSession.id === session.id}
-                                        session={session}
-                                        switchMe={() => {
-                                            store.switchCurrentSession(session)
-                                            document.getElementById('message-input')?.focus() // better way?
-                                        }}
-                                        deleteMe={() => store.deleteChatSession(session)}
-                                        copyMe={() => {
-                                            const newSession = createSession(session.name + ' Copyed')
-                                            newSession.messages = session.messages
-                                            store.createChatSession(newSession, ix)
-                                        }}
-                                        editMe={() => setConfigureChatConfig(session)}
-                                    />
-                                ))
+                                (() => {
+                                    const pinnedSessions = store.chatSessions.filter(s => s.pinned)
+                                    const unpinnedSessions = store.chatSessions.filter(s => !s.pinned)
+
+                                    return (
+                                        <>
+                                            {pinnedSessions.map((session, ix) => (
+                                                <SessionItem selected={store.currentSession.id === session.id}
+                                                    session={session}
+                                                    switchMe={() => {
+                                                        store.switchCurrentSession(session)
+                                                        document.getElementById('message-input')?.focus() // better way?
+                                                    }}
+                                                    deleteMe={() => store.deleteChatSession(session)}
+                                                    copyMe={() => {
+                                                        const newSession = createSession(session.name + ' Copyed')
+                                                        newSession.messages = session.messages
+                                                        store.createChatSession(newSession, ix)
+                                                    }}
+                                                    editMe={() => setConfigureChatConfig(session)}
+                                                    togglePin={() => {
+                                                        const result = store.togglePinSession(session)
+                                                        if (!result.success) {
+                                                            setToastMessage(result.message)
+                                                        }
+                                                    }}
+                                                />
+                                            ))}
+
+                                            {pinnedSessions.length > 0 && unpinnedSessions.length > 0 && (
+                                                <Divider sx={{ my: 1 }} />
+                                            )}
+
+                                            {unpinnedSessions.map((session, ix) => (
+                                                <SessionItem selected={store.currentSession.id === session.id}
+                                                    session={session}
+                                                    switchMe={() => {
+                                                        store.switchCurrentSession(session)
+                                                        document.getElementById('message-input')?.focus() // better way?
+                                                    }}
+                                                    deleteMe={() => store.deleteChatSession(session)}
+                                                    copyMe={() => {
+                                                        const newSession = createSession(session.name + ' Copyed')
+                                                        newSession.messages = session.messages
+                                                        store.createChatSession(newSession, ix)
+                                                    }}
+                                                    editMe={() => setConfigureChatConfig(session)}
+                                                    togglePin={() => {
+                                                        const result = store.togglePinSession(session)
+                                                        if (!result.success) {
+                                                            setToastMessage(result.message)
+                                                        }
+                                                    }}
+                                                />
+                                            ))}
+                                        </>
+                                    )
+                                })()
                             }
                         </MenuList>
 
@@ -399,6 +443,13 @@ function Main() {
                         />
                     ))
                 }
+                <Snackbar
+                    open={toastMessage !== null}
+                    autoHideDuration={3000}
+                    onClose={() => setToastMessage(null)}
+                    message={toastMessage}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                />
             </Grid>
         </Box >
     );

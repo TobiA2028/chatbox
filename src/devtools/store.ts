@@ -76,7 +76,8 @@ export async function readSessions(): Promise<Session[]> {
     if (sessions.length === 0) {
         return [createSession()]
     }
-    return sessions
+    // Ensure all sessions have pinned property for backward compatibility
+    return sessions.map((s: Session) => ({ ...s, pinned: s.pinned ?? false }))
 }
 
 export async function writeSessions(sessions: Session[]) {
@@ -152,6 +153,21 @@ export default function useStore() {
         createChatSession(createSession())
     }
 
+    const togglePinSession = (session: Session) => {
+        const pinnedCount = chatSessions.filter(s => s.pinned).length
+
+        // Check if trying to pin when already at limit
+        if (!session.pinned && pinnedCount >= 3) {
+            return { success: false, message: "Maximum 3 chats can be pinned" }
+        }
+
+        // Toggle pin status
+        const updatedSession = { ...session, pinned: !session.pinned }
+        updateChatSession(updatedSession)
+
+        return { success: true }
+    }
+
     const setMessages = (session: Session, messages: Message[]) => {
         updateChatSession({
             ...session,
@@ -180,6 +196,7 @@ export default function useStore() {
         updateChatSession,
         deleteChatSession,
         createEmptyChatSession,
+        togglePinSession,
 
         currentSession,
         switchCurrentSession,
